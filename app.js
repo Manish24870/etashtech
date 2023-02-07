@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import authRouter from "./routes/authRoutes.js";
+import reminderRouter from "./routes/reminderRoutes.js";
 
 const app = express();
 app.use(cors());
@@ -22,6 +23,7 @@ mongoose
 
 // Mount the routes
 app.use("/auth", authRouter);
+app.use("/reminders", reminderRouter);
 
 // Global error handler
 app.use((err, req, res, next) => {
