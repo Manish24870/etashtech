@@ -5,6 +5,7 @@ import {
   Button,
   Heading,
   Text,
+  Input,
   Spinner,
   useToast,
   Select,
@@ -14,12 +15,13 @@ import axios from "axios";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
-import ReminderItem from "./ReminderItem";
+import ReminderList from "./ReminderList";
 
 const Reminders = (props) => {
   const [reminders, setReminders] = useState(null);
   const [order, setOrder] = useState("ascending");
   const [sortBy, setSortBy] = useState(null);
+  const [searchText, setSearchText] = useState("");
   const toast = useToast();
 
   // hook to sort the reminders
@@ -124,7 +126,7 @@ const Reminders = (props) => {
 
   return (
     <Container maxW="4xl">
-      <Flex justify="space-between" mt={3} mb={4}>
+      <Flex justify="space-between" mt={3} mb={2}>
         <Heading as="h3" size="md">
           All Reminders
         </Heading>
@@ -150,6 +152,7 @@ const Reminders = (props) => {
             <option value="descending">Desc</option>
           </Select>
         </Flex>
+
         <Button
           as={Link}
           to="/reminders/add"
@@ -161,15 +164,21 @@ const Reminders = (props) => {
         </Button>
       </Flex>
 
+      <Input
+        placeholder="Search reminders"
+        size="sm"
+        mb={3}
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+
       <Box>
         {reminders ? (
-          reminders.map((reminder) => (
-            <ReminderItem
-              key={reminder._id}
-              reminder={reminder}
-              deleteReminderHandler={() => deleteReminderHandler(reminder._id)}
-            />
-          ))
+          <ReminderList
+            reminders={reminders}
+            deleteReminderHandler={deleteReminderHandler}
+            searchText={searchText}
+          />
         ) : (
           <Spinner />
         )}
