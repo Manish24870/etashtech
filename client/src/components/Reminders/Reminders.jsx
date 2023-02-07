@@ -16,6 +16,7 @@ import { SmallAddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 import ReminderList from "./ReminderList";
+import ExportCSV from "./ExportCSV";
 
 const Reminders = (props) => {
   const [reminders, setReminders] = useState(null);
@@ -164,13 +165,21 @@ const Reminders = (props) => {
         </Button>
       </Flex>
 
-      <Input
-        placeholder="Search reminders"
-        size="sm"
-        mb={3}
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-      />
+      <Flex justify="space-between">
+        <Input
+          placeholder="Search reminders"
+          size="sm"
+          mb={3}
+          mr={8}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          width={"80%"}
+        />
+        {/* <Button size="sm" colorScheme="blue">
+          Export CSV
+        </Button> */}
+        {reminders ? <ExportCSV reminders={reminders} /> : null}
+      </Flex>
 
       <Box>
         {reminders ? (
