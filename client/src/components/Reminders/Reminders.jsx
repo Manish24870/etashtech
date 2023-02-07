@@ -1,16 +1,4 @@
-import {
-  Input,
-  Container,
-  Box,
-  Flex,
-  Card,
-  CardBody,
-  Button,
-  Heading,
-  Text,
-  Spinner,
-  useToast,
-} from "@chakra-ui/react";
+import { Container, Box, Flex, Button, Heading, Text, Spinner, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SmallAddIcon } from "@chakra-ui/icons";
