@@ -1,4 +1,14 @@
-import { Container, Box, Flex, Button, Heading, Text, Spinner, useToast } from "@chakra-ui/react";
+import {
+  Container,
+  Box,
+  Flex,
+  Button,
+  Heading,
+  Text,
+  Spinner,
+  useToast,
+  Select,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SmallAddIcon } from "@chakra-ui/icons";
@@ -8,7 +18,58 @@ import ReminderItem from "./ReminderItem";
 
 const Reminders = (props) => {
   const [reminders, setReminders] = useState(null);
+  const [order, setOrder] = useState("ascending");
+  const [sortBy, setSortBy] = useState(null);
   const toast = useToast();
+
+  // hook to sort the reminders
+  useEffect(() => {
+    if (reminders) {
+      let newReminders = [...reminders];
+      if (sortBy === "title" && order === "ascending") {
+        newReminders.sort(function (a, b) {
+          if (a.title < b.title) {
+            return -1;
+          }
+          if (a.title > b.title) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (sortBy === "title" && order === "descending") {
+        newReminders.sort(function (a, b) {
+          if (a.title < b.title) {
+            return 1;
+          }
+          if (a.title > b.title) {
+            return -1;
+          }
+          return 0;
+        });
+      } else if (sortBy === "date" && order === "ascending") {
+        newReminders.sort(function (a, b) {
+          if (a.reminderDate < b.reminderDate) {
+            return -1;
+          }
+          if (a.reminderDate > b.reminderDate) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (sortBy === "date" && order === "descending") {
+        newReminders.sort(function (a, b) {
+          if (a.reminderDate < b.reminderDate) {
+            return 1;
+          }
+          if (a.reminderDate > b.reminderDate) {
+            return -1;
+          }
+          return 0;
+        });
+      }
+      setReminders(newReminders);
+    }
+  }, [sortBy, order]);
 
   // Fetch all the reminders on component mount
   useEffect(() => {
@@ -67,6 +128,28 @@ const Reminders = (props) => {
         <Heading as="h3" size="md">
           All Reminders
         </Heading>
+        <Flex>
+          <Select
+            placeholder="Sort By"
+            mr={4}
+            size="sm"
+            sx={{ width: "105%" }}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="title">Title</option>
+            <option value="date">Date</option>
+          </Select>
+          <Select
+            placeholder="Order"
+            defaultValue="ascending"
+            size="sm"
+            onChange={(e) => setOrder(e.target.value)}
+            disabled={!sortBy}
+          >
+            <option value="ascending">Asc</option>
+            <option value="descending">Desc</option>
+          </Select>
+        </Flex>
         <Button
           as={Link}
           to="/reminders/add"
