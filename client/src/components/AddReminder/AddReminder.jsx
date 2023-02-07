@@ -10,10 +10,9 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 
 const AddReminder = (props) => {
   const [title, setTitle] = useState("");
@@ -27,7 +26,7 @@ const AddReminder = (props) => {
     event.preventDefault();
     try {
       const token = localStorage.getItem("jwt");
-      const response = await axios.post(
+      await axios.post(
         process.env.REACT_APP_SERVER_URL + "/reminders/add",
         {
           title,
@@ -49,7 +48,6 @@ const AddReminder = (props) => {
         isClosable: true,
       });
     } catch (err) {
-      console.log(err);
       toast({
         title: "Error",
         description: err.response.data.error,

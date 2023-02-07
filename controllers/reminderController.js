@@ -46,3 +46,34 @@ export const deleteReminder = async (req, res, next) => {
     next(err);
   }
 };
+
+// Route = GET /reminders/:reminderId
+// Function to get a reminder
+export const getReminder = async (req, res, next) => {
+  try {
+    const reminder = await Reminder.findById(req.params.reminderId);
+    res.status(200).json({
+      status: "success",
+      reminder,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Route = PATCH /reminders/:reminderId/edit
+// Function to edit a reminder
+export const editReminder = async (req, res, next) => {
+  try {
+    const reminder = await Reminder.findByIdAndUpdate(req.params.reminderId, req.body, {
+      new: true,
+    });
+    await reminder.save();
+    res.status(200).json({
+      status: "success",
+      reminder,
+    });
+  } catch (err) {
+    next(err);
+  }
+};

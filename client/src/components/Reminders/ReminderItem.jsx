@@ -1,5 +1,16 @@
-import { Flex, Card, CardBody, Text, useToast, Box, Spacer, IconButton } from "@chakra-ui/react";
+import {
+  Flex,
+  Card,
+  CardBody,
+  Text,
+  Button,
+  useToast,
+  Box,
+  Spacer,
+  IconButton,
+} from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
 const ReminderItem = (props) => {
   return (
@@ -17,6 +28,16 @@ const ReminderItem = (props) => {
           </Box>
           <Spacer />
           <Box>
+            <Button
+              size="sm"
+              mr={2}
+              colorScheme="blue"
+              variant="ghost"
+              as={Link}
+              to={`/reminders/${props.reminder._id}/edit`}
+            >
+              Edit
+            </Button>
             <IconButton icon={<DeleteIcon />} color="red" onClick={props.deleteReminderHandler} />
           </Box>
         </Flex>
