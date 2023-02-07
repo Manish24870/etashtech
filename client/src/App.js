@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import AddReminder from "./components/AddReminder/AddReminder";
+import Reminders from "./components/Reminders/Reminders";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reminders/add" element={<AddReminder />} />
+          <Route path="/reminders/" element={<Reminders />} />
         </Routes>
       </ChakraProvider>
     </BrowserRouter>

@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <Box as="section">
       <Box as="nav" bg="bg-surface" boxShadow="sm">
-        <Container py={4}>
+        <Container py={4} maxW="4xl">
           <HStack spacing="10" justify="space-between">
             <Flex justify="space-between" flex="1">
               <ButtonGroup variant="link" spacing="8">
