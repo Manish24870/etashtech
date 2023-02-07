@@ -1,15 +1,4 @@
-import {
-  Flex,
-  Card,
-  CardBody,
-  Button,
-  Heading,
-  Text,
-  useToast,
-  Box,
-  Spacer,
-  IconButton,
-} from "@chakra-ui/react";
+import { Flex, Card, CardBody, Text, useToast, Box, Spacer, IconButton } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 const ReminderItem = (props) => {
@@ -19,16 +8,16 @@ const ReminderItem = (props) => {
         <Flex align="center">
           <Box>
             <Text fontSize="lg" fontWeight={500}>
-              Play Piano
+              {props.reminder.title}
             </Text>
-            <Text>I need to play the piano in this time</Text>
+            <Text>{props.reminder.description}</Text>
             <Text color="purple" fontWeight={500} mt={1}>
-              Deadline: {new Date().toLocaleDateString()}
+              Deadline: {new Date(props.reminder.reminderDate).toLocaleString()}
             </Text>
           </Box>
           <Spacer />
           <Box>
-            <IconButton icon={<DeleteIcon />} color="red" />
+            <IconButton icon={<DeleteIcon />} color="red" onClick={props.deleteReminderHandler} />
           </Box>
         </Flex>
       </CardBody>
