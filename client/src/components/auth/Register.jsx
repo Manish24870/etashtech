@@ -21,7 +21,7 @@ const Register = (props) => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  // When user submits the regist er form
+  // When user submits the register form
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
@@ -56,7 +56,7 @@ const Register = (props) => {
     <Container>
       <Card mt={20}>
         <CardBody>
-          <Heading as="h3" size="lg" mb={2}>
+          <Heading as="h3" size="md" mb={2}>
             Register
           </Heading>
           <Text mb={6}>Fill up the form below to register as a new user</Text>

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 import User from "../models/User.js";
 
@@ -17,7 +18,6 @@ const sendAuthToken = (user, res) => {
 // Route = POST /auth/register
 // Function to register a new user
 export const registerUser = async (req, res, next) => {
-  console.log(req.body);
   // Check if this email is already taken by another user
   const foundEmail = await User.findOne({ email: req.body.email });
   if (foundEmail) {
@@ -34,6 +34,30 @@ export const registerUser = async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
     });
+    await newUser.save();
+    sendAuthToken(newUser, res);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+// Route = POST /auth/login
+// Function to login a user
+export const loginUser = async (req, res, next) => {
+  // Check if this email is already taken by another user
+  const user = await User.findOne({ email: req.body.email });
+
+  // Check the password of the user
+  if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
+    return res.status(400).json({
+      status: "error",
+      error: "The given credentials are invalid",
+    });
+  }
+  sendAuthToken(user, res);
+
+  try {
     await newUser.save();
     sendAuthToken(newUser, res);
   } catch (err) {
