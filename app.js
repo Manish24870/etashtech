@@ -1,13 +1,18 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
-import authRouter from "./routes/authRoutes";
+import authRouter from "./routes/authRoutes.js";
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 // Database connection
 mongoose
-  .connect("mongodb://127.0.0.1:27017/book-trading-app", { useNewUrlParser: true })
+  .connect("mongodb://127.0.0.1:27017/etashtech-work", { useNewUrlParser: true })
   .then(() => {
     console.log("Database connected");
   })

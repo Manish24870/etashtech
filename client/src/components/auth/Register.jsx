@@ -1,14 +1,55 @@
-import { Input, Container, Flex, Card, CardBody, Button, Heading, Text } from "@chakra-ui/react";
+import {
+  Input,
+  Container,
+  Flex,
+  Card,
+  CardBody,
+  Button,
+  Heading,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const Register = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  const formSubmitHandler = (event) => {
+  // When user submits the regist er form
+  const formSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(name, email, password);
+    try {
+      const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/auth/register", {
+        name,
+        email,
+        password,
+      });
+      localStorage.setItem("jwt", response.data.token);
+      const decoded = jwt_decode(response.data.token);
+      localStorage.setItem("user", decoded);
+      toast({
+        title: "Success",
+        description: "Registration successful",
+        status: "success",
+        duration: 2500,
+        isClosable: true,
+      });
+      navigate("/", { replace: true });
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err.response.data.error,
+        status: "error",
+        duration: 2500,
+        isClosable: true,
+      });
+    }
   };
 
   return (
