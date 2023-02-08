@@ -39,6 +39,7 @@ const Login = (props) => {
         isClosable: true,
       });
       navigate("/reminders", { replace: true });
+      window.location.reload();
     } catch (err) {
       toast({
         title: "Error",

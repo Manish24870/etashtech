@@ -4,7 +4,6 @@ import {
   Flex,
   Button,
   Heading,
-  Text,
   Input,
   Spinner,
   useToast,
