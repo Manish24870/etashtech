@@ -21,7 +21,10 @@ app.use(express.json());
 
 // Database connection
 mongoose
-  .connect("mongodb://127.0.0.1:27017/etashtech-work", { useNewUrlParser: true })
+  .connect(
+    "mongodb+srv://manish:manish@cluster0.sgp6t0l.mongodb.net/?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
+  )
   .then(() => {
     console.log("Database connected");
   })
