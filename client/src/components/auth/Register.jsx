@@ -40,7 +40,7 @@ const Register = (props) => {
         duration: 2500,
         isClosable: true,
       });
-      navigate("/", { replace: true });
+      navigate("/reminders", { replace: true });
     } catch (err) {
       toast({
         title: "Error",

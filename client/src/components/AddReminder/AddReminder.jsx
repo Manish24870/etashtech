@@ -10,9 +10,11 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import { SocketContext } from "../../context/socket";
 
 const AddReminder = (props) => {
   const [title, setTitle] = useState("");
@@ -20,13 +22,13 @@ const AddReminder = (props) => {
   const [reminderDate, setReminderDate] = useState();
   const toast = useToast();
   const navigate = useNavigate();
-
+  const socket = useContext(SocketContext);
   // When user creates a new reminder
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
       const token = localStorage.getItem("jwt");
-      await axios.post(
+      const response = await axios.post(
         process.env.REACT_APP_SERVER_URL + "/reminders/add",
         {
           title,
@@ -39,6 +41,8 @@ const AddReminder = (props) => {
           },
         }
       );
+
+      socket.emit("createReminderJob", response.data.reminder);
       navigate("/reminders", { replace: true });
       toast({
         title: "Success",
@@ -48,6 +52,7 @@ const AddReminder = (props) => {
         isClosable: true,
       });
     } catch (err) {
+      console.log(err);
       toast({
         title: "Error",
         description: err.response.data.error,

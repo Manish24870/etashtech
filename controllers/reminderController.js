@@ -11,6 +11,7 @@ export const createReminder = async (req, res, next) => {
       owner: req.user._id,
     });
     await newReminder.save();
+
     res.status(200).json({
       status: "success",
       reminder: newReminder,
@@ -23,6 +24,7 @@ export const createReminder = async (req, res, next) => {
 // Route = GET /reminders
 // Function to fetch all the reminders
 export const getReminders = async (req, res, next) => {
+  // job.start();
   try {
     const reminders = await Reminder.find({ owner: req.user._id }).sort("-createdAt");
     res.status(200).json({

@@ -3,7 +3,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ExportToCsv } from "export-to-csv";
 
 const ExportCSV = (props) => {
-  // When user wants to export titles only
+  // Map the reminders to specified required download formats
   let reminderTitles = [];
   let reminderDates = [];
   let reminderBoth = [];
@@ -16,6 +16,7 @@ const ExportCSV = (props) => {
     });
   });
 
+  // When user wants to export titles only
   const exportTitlesHandler = () => {
     const csvExporter = new ExportToCsv({
       headers: ["Titles"],
@@ -24,6 +25,8 @@ const ExportCSV = (props) => {
     });
     csvExporter.generateCsv(reminderTitles);
   };
+
+  // When user wants to export dates only
   const exportDatesHandler = () => {
     const csvExporter = new ExportToCsv({
       headers: ["Reminder Dates"],
@@ -32,6 +35,8 @@ const ExportCSV = (props) => {
     });
     csvExporter.generateCsv(reminderDates);
   };
+
+  // When user wants to expoort titles and dates
   const exportBothHandler = () => {
     const csvExporter = new ExportToCsv({
       headers: ["Titles", "Date"],
@@ -42,18 +47,16 @@ const ExportCSV = (props) => {
   };
 
   return (
-    <>
-      <Menu>
-        <MenuButton as={Button} size="sm" rightIcon={<ChevronDownIcon />} color="blue">
-          Export CSV
-        </MenuButton>
-        <MenuList>
-          <MenuItem onClick={exportTitlesHandler}>Export Titles</MenuItem>
-          <MenuItem onClick={exportDatesHandler}>Export Dates</MenuItem>
-          <MenuItem onClick={exportBothHandler}>Export Both</MenuItem>
-        </MenuList>
-      </Menu>
-    </>
+    <Menu>
+      <MenuButton as={Button} size="sm" rightIcon={<ChevronDownIcon />} color="blue">
+        Export CSV
+      </MenuButton>
+      <MenuList>
+        <MenuItem onClick={exportTitlesHandler}>Export Titles</MenuItem>
+        <MenuItem onClick={exportDatesHandler}>Export Dates</MenuItem>
+        <MenuItem onClick={exportBothHandler}>Export Both</MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 

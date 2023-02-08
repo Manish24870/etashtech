@@ -2,7 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import { Server } from "socket.io";
+import { CronJob } from "cron";
+
 dotenv.config();
+
+// Create a new socket server
+const io = new Server(8900, { cors: { origin: "*" } });
 
 import authRouter from "./routes/authRoutes.js";
 import reminderRouter from "./routes/reminderRoutes.js";
@@ -32,6 +38,22 @@ app.use((err, req, res, next) => {
   res.status(400).json({
     status: "error",
     error: err,
+  });
+});
+
+// Socket IO for sending notifications on reminder deadline
+io.on("connection", (socket) => {
+  console.log("CONNECTED");
+  // Create a reminder job when user creates a new reminder
+  socket.on("createReminderJob", (reminder) => {
+    new CronJob(
+      new Date(reminder.reminderDate),
+      () => {
+        io.emit("jobCompleted", reminder);
+      },
+      null,
+      true
+    );
   });
 });
 
