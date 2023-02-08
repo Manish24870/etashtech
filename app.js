@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import { Server } from "socket.io";
 import { CronJob } from "cron";
 
+import Reminder from "./models/Reminder.js";
+
 dotenv.config();
 
 // Create a new socket server
@@ -48,8 +50,11 @@ io.on("connection", (socket) => {
   socket.on("createReminderJob", (reminder) => {
     new CronJob(
       new Date(reminder.reminderDate),
-      () => {
-        io.emit("jobCompleted", reminder);
+      async () => {
+        const reminder2 = await Reminder.findById(reminder._id);
+        reminder2.status = "completed";
+        await reminder2.save();
+        io.emit("jobCompleted", reminder2);
       },
       null,
       true

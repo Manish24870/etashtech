@@ -13,5 +13,5 @@ export const checkNotificationStatus = (message, user) => {
 };
 
 export const sendNotification = (message, user) => {
-  const notification = new Notification(message);
+  new Notification(message);
 };

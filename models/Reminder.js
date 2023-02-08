@@ -19,6 +19,11 @@ const reminderSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["pending", "completed"],
+      default: "pending",
+    },
   },
   { timestamps: true }
 );

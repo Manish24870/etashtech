@@ -8,6 +8,7 @@ import {
   Box,
   Spacer,
   IconButton,
+  Badge,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -22,9 +23,20 @@ const ReminderItem = (props) => {
               {props.reminder.title}
             </Text>
             <Text>{props.reminder.description}</Text>
-            <Text color="purple" fontWeight={500} mt={1}>
-              Deadline: {new Date(props.reminder.reminderDate).toLocaleString()}
-            </Text>
+            <Flex align="flex-end">
+              <Text color="purple" fontWeight={500} mt={1}>
+                Deadline: {new Date(props.reminder.reminderDate).toLocaleString()}
+              </Text>
+              {props.reminder.status === "pending" ? (
+                <Badge ml={6} colorScheme="red">
+                  Pending
+                </Badge>
+              ) : (
+                <Badge ml={6} colorScheme="green">
+                  Completed
+                </Badge>
+              )}
+            </Flex>
           </Box>
           <Spacer />
           <Box>
